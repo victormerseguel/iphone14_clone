@@ -594,10 +594,27 @@ nav {
     margin: 7px 0;
     align-self: flex-start;
     width: 230px;
-    border-radius: 10px;
+    height: 129.4px;
     position: relative;
     left: 0;
+    display: flex;
 }
+
+.thumb img {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.playThumb {
+    position: absolute;
+    z-index: 2;
+    align-self: flex-start;
+
+}
+
+/* .hiddenThumb {
+    display: none;
+} */
 
 .musicthumb {
     padding-top: 15px;

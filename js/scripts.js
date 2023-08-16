@@ -61,7 +61,11 @@ const selectThumb2 = document.querySelector('.carousel2');
 
 function addThumbs1() {
     thumb1.forEach(img => {
-        const thumbTemplate = `<img class="thumb car1" src="${img}" />`;
+        const thumbTemplate = 
+            `<div class="thumb car1">
+                <img src="${img}" />
+                <img class= "playThumb hiddenThumb" src = "img/icon_play_buttom.png" />
+            </div/`;
         const parser = new DOMParser();
         document2 = parser.parseFromString(thumbTemplate, 'text/html')
 
@@ -70,7 +74,10 @@ function addThumbs1() {
     })
 }
 thumb2.forEach(img => {
-    const thumbTemplate = `<img class="thumb car2" src="${img}" />`;
+    const thumbTemplate = 
+        `<div class="thumb car2">
+            <img src="${img}" />
+        </div/`;
     const parser = new DOMParser();
     document2 = parser.parseFromString(thumbTemplate, 'text/html')
 
