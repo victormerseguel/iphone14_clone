@@ -598,29 +598,66 @@ nav {
     position: relative;
     left: 0;
     display: flex;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .thumb img {
-    height: 100%;
     border-radius: 10px;
 }
 
-.playThumb {
+.playThumbWrap1,
+.playThumbWrap2 {
     position: absolute;
     z-index: 2;
-    align-self: flex-start;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11pt;
+    font-weight: 600;
+    letter-spacing: .5px;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #3d3d3d;
+    border-radius: 25px;
+    align-self: center;
+    opacity: 1;
+    transition: .3s;
 }
 
-/* .hiddenThumb {
-    display: none;
-} */
+.playThumbWrap1 p,
+.playThumbWrap2 p {
+    padding-right: 5px;
+}
 
-.musicthumb {
+.car1 {
+    display: flex;
+    width: 100%;
+    transition: .3s;
+}
+
+.imgThumbHover {
+    opacity: .7;
+}
+
+.playThumb {
+  width: 20px;
+  align-self: center;
+}
+
+.hiddenThumb {
+    /* display: none; */
+    margin-top: 20px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.musicThumb {
     padding-top: 15px;
     align-self: center;
     padding-bottom: 100px;
     height: 390px;
+    cursor: pointer;
 }
 
 .selected {

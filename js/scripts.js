@@ -38,7 +38,7 @@ setTimeout(() => {
 }, 2000)
 
 
-// TV+ carousel
+// TV+ CAROUSEL
 
 // creating arrays
 const thumb1 = [];
@@ -61,11 +61,14 @@ const selectThumb2 = document.querySelector('.carousel2');
 
 function addThumbs1() {
     thumb1.forEach(img => {
-        const thumbTemplate = 
+        const thumbTemplate =
             `<div class="thumb car1">
-                <img src="${img}" />
-                <img class= "playThumb hiddenThumb" src = "img/icon_play_buttom.png" />
-            </div/`;
+                <img class="imgThumb1" src="${img}" />
+                <div class="playThumbWrap1 hiddenThumb">
+                    <p>Assista agora</p>
+                    <img class= "playThumb" src = "img/icon_play_buttom.png" />
+                </div>
+            </div>`;
         const parser = new DOMParser();
         document2 = parser.parseFromString(thumbTemplate, 'text/html')
 
@@ -74,9 +77,13 @@ function addThumbs1() {
     })
 }
 thumb2.forEach(img => {
-    const thumbTemplate = 
+    const thumbTemplate =
         `<div class="thumb car2">
-            <img src="${img}" />
+            <img class="imgThumb2" src="${img}" />
+            <div class="playThumbWrap2 hiddenThumb">
+                <p>Assista agora</p>
+                <img class= "playThumb" src = "img/icon_play_buttom.png" />
+            </div>
         </div/`;
     const parser = new DOMParser();
     document2 = parser.parseFromString(thumbTemplate, 'text/html')
@@ -90,79 +97,105 @@ addThumbs1();
 
 const speed1 = .4;
 const speed2 = .5;
-
 let vel1 = speed1;
 let vel2 = speed2;
 
 const carousel1Tumbs = document.querySelectorAll('.car1');
 const carousel2Tumbs = document.querySelectorAll('.car2');
-let positionLeft1 = 0;
-let positionLeft2 = 0;
 
 
-const setLeft = (posLeft1, posLeft2) => {
-    carousel1Tumbs.forEach((position) => {
-        position.style.left = posLeft1 + 'px';
-    })
+const setLeft = () => {
+    carousel1Tumbs.forEach(position => position.style.left = '0px')
 
-    carousel2Tumbs.forEach((position) => {
-        position.style.left = posLeft2 + 'px';
-    })
+    carousel2Tumbs.forEach(position => position.style.left = '0px')
 }
 
-setLeft(positionLeft1, positionLeft2);
-
-const animate = () => {
-    carousel1Tumbs.forEach((left1, index) => {
-        left1.style.left = parseFloat(left1.style.left) - vel1 + 'px';
-    })
-    carousel2Tumbs.forEach((left2) => {
-        left2.style.left = parseFloat(left2.style.left) - vel2 + 'px';
-    })
-    requestAnimationFrame(animate);
-}
-animate();
+setLeft()
 
 
-// mouse event
-carousel1Tumbs.forEach((event) => {
-    event.addEventListener('mouseenter', () => {
-        vel1 = .1;
-    });
-    event.addEventListener('mouseleave', () => {
-        vel1 = speed1;
-    });
-});
-carousel2Tumbs.forEach((event) => {
-    event.addEventListener('mouseenter', () => {
-        vel2 = .1;
-    });
-    event.addEventListener('mouseleave', () => {
-        vel2 = speed2
-    });
-});
-
-
-
-//  infinit loop
 const imgWidth = 230;
 const imgGap = 10;
 
 const containerWidth1 = (thumb1.length * imgWidth) + ((thumb1.length - 1) * imgGap);
 const containerWidth2 = (thumb2.length * imgWidth) + ((thumb2.length - 1) * imgGap);
 
-const sentinela = setInterval(() => {
-   carousel1Tumbs.forEach((item, index) => {
-    let leftInt = parseInt(item.style.left);
-    if (leftInt <= (imgWidth + imgGap) * -1 * (index + 1)) {
-        item.style.left = leftInt + containerWidth1 + imgGap + 'px'
-    }
-   })
-   carousel2Tumbs.forEach((item2, index2) => {
-    let leftInt2 = parseInt(item2.style.left);
-    if (leftInt2 <= (imgWidth + imgGap) * -1 * (index2 + 1)) {
-        item2.style.left = leftInt2 + containerWidth2 + imgGap + 'px'
-    }
-   })
-}, 50);
+const animate = () => {
+    carousel1Tumbs.forEach((item, index) => {
+        item.style.left = parseFloat(item.style.left) - vel1 + 'px';
+        let leftInt = parseFloat(item.style.left);
+        if (leftInt <= (imgWidth + imgGap) * -1 * (index + 1)) {
+            item.style.left = leftInt + containerWidth1 + imgGap + 'px'
+        }
+    })
+    carousel2Tumbs.forEach((item2, index2) => {
+        item2.style.left = parseFloat(item2.style.left) - vel2 + 'px';
+        let leftInt2 = parseFloat(item2.style.left);
+        if (leftInt2 <= (imgWidth + imgGap) * -1 * (index2 + 1)) {
+            item2.style.left = leftInt2 + containerWidth2 + imgGap + 'px'
+        }
+    })
+    requestAnimationFrame(animate);
+}
+animate();
 
+
+// mouse event tv+
+
+const imgThumb1 = document.querySelectorAll('.imgThumb1');
+const imgThumb2 = document.querySelectorAll('.imgThumb2');
+const playThumbWrap1 = document.querySelectorAll('.playThumbWrap1');
+const playThumbWrap2 = document.querySelectorAll('.playThumbWrap2');
+
+
+carousel1Tumbs.forEach((event, index) => {
+    event.addEventListener('mouseenter', () => {
+        vel1 = .1;
+        playThumbWrap1[index].classList.remove('hiddenThumb')
+        imgThumb1[index].classList.add('imgThumbHover')
+    });
+    event.addEventListener('mouseleave', () => {
+        vel1 = speed1;
+        playThumbWrap1[index].classList.add('hiddenThumb')
+        imgThumb1[index].classList.remove('imgThumbHover')
+    });
+});
+carousel2Tumbs.forEach((event, index) => {
+    event.addEventListener('mouseenter', () => {
+        vel2 = .1;
+        playThumbWrap2[index].classList.remove('hiddenThumb')
+        imgThumb2[index].classList.add('imgThumbHover')
+    });
+    event.addEventListener('mouseleave', () => {
+        vel2 = speed2
+        playThumbWrap2[index].classList.add('hiddenThumb')
+        imgThumb2[index].classList.remove('imgThumbHover')
+    });
+});
+
+
+// MUSIC
+
+// creating images
+const mThumbs = [];
+
+for (let i = 0; i < 25; i++) {
+    mThumbs[i] = `music_${i + 1}.jpg`
+}
+
+const selectMusic = document.querySelector('.carouselMusic')
+
+mThumbs.forEach((image) => {
+    const musicTemplate = 
+    `<div class="musicImages">
+        <img class="musicThumb" src="img/music/${image}" />
+        <div class="playThumbWrap hiddenThumb">
+            <p>Listen now</p>
+            <img class= "playThumb" src = "img/icon_play_buttom.png" />
+        </div>
+    </div>`;
+
+    parser = new DOMParser();
+    const document3 = parser.parseFromString(musicTemplate, "text/html")
+    const htmlMusic = document3.querySelector('.musicImages')
+    selectMusic.appendChild(htmlMusic)
+})
