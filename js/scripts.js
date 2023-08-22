@@ -138,9 +138,33 @@ const animate = () => {
 }
 animate();
 
+// control buttons
+const playMusicBtn = document.querySelector("#playMusic");
+const playTvBtn = document.querySelector("#playTv");
+let pauseTV = false;
+let pauseMusic = false;
+
+playTvBtn.addEventListener('click', () => {
+    pauseTV = !pauseTV;
+    if (pauseTV) {
+        playTvBtn.src = playTvBtn.src.replace("play", "pause");
+        vel1 = 0; vel2 = 0;
+    } else {
+        playTvBtn.src = playTvBtn.src.replace("pause", "play");
+        vel1 = speed1; vel2 = speed2
+    }
+})
+playMusicBtn.addEventListener('click', () => {
+    pauseMusic = !pauseMusic;
+    if (pauseMusic) {
+        playMusicBtn.src = playMusicBtn.src.replace("play", "pause");
+    } else {
+        playMusicBtn.src = playMusicBtn.src.replace("pause", "play");
+    }
+})
+
 
 // mouse event tv+
-
 const imgThumb1 = document.querySelectorAll('.imgThumb1');
 const imgThumb2 = document.querySelectorAll('.imgThumb2');
 const playThumbWrap1 = document.querySelectorAll('.playThumbWrap1');
@@ -149,28 +173,29 @@ const playThumbWrap2 = document.querySelectorAll('.playThumbWrap2');
 
 carousel1Tumbs.forEach((event, index) => {
     event.addEventListener('mouseenter', () => {
-        vel1 = .1;
+        !pauseTV ? vel1 = .1 : null;
         playThumbWrap1[index].classList.remove('hiddenThumb')
         imgThumb1[index].classList.add('imgThumbHover')
     });
     event.addEventListener('mouseleave', () => {
-        vel1 = speed1;
+        !pauseTV ? vel1 = speed1 : null
         playThumbWrap1[index].classList.add('hiddenThumb')
         imgThumb1[index].classList.remove('imgThumbHover')
     });
 });
 carousel2Tumbs.forEach((event, index) => {
     event.addEventListener('mouseenter', () => {
-        vel2 = .1;
+        !pauseTV ? vel2 = .1 : null
         playThumbWrap2[index].classList.remove('hiddenThumb')
         imgThumb2[index].classList.add('imgThumbHover')
     });
     event.addEventListener('mouseleave', () => {
-        vel2 = speed2
+        !pauseTV ? vel2 = speed2 : null
         playThumbWrap2[index].classList.add('hiddenThumb')
         imgThumb2[index].classList.remove('imgThumbHover')
     });
 });
+
 
 
 // MUSIC
@@ -185,17 +210,92 @@ for (let i = 0; i < 25; i++) {
 const selectMusic = document.querySelector('.carouselMusic')
 
 mThumbs.forEach((image) => {
-    const musicTemplate = 
-    `<div class="musicImages">
-        <img class="musicThumb" src="img/music/${image}" />
-        <div class="playThumbWrap hiddenThumb">
-            <p>Listen now</p>
-            <img class= "playThumb" src = "img/icon_play_buttom.png" />
-        </div>
-    </div>`;
+    const musicTemplate =
+        `<div class="musicImages">
+            <img class="musicThumb" src="img/music/${image}" />
+            <div class="playThumbWrap hiddenThumb">
+                <p>Listen now</p>
+                <img class= "playThumb" src = "img/icon_play_buttom.png" />
+            </div>
+        </div>`;
 
     parser = new DOMParser();
     const document3 = parser.parseFromString(musicTemplate, "text/html")
     const htmlMusic = document3.querySelector('.musicImages')
     selectMusic.appendChild(htmlMusic)
 })
+
+
+// mouse event music
+
+const divImgThumbs = document.querySelectorAll(".musicImages");
+const imgThumb = document.querySelectorAll(".musicThumb");
+
+divImgThumbs.forEach((divImg) => {
+    const img = divImg.querySelector(".musicThumb");
+    const playThumb = divImg.querySelector(".playThumbWrap");
+
+    divImg.addEventListener('mouseenter', () => {
+        img.classList.toggle("hoverMusic");
+        playThumb.classList.toggle("hiddenThumb")
+    });
+    divImg.addEventListener('mouseleave', () => {
+        img.classList.toggle("hoverMusic");
+        playThumb.classList.toggle("hiddenThumb")
+    });
+});
+
+
+
+
+
+//  add moviment
+
+const parentWidth = document.querySelector(".music").clientWidth;
+const musicImgWidth = 290;
+const musicImgSelectedWidth = 350;
+const musicGapWidth = 10;
+const musicArrWidth = ((divImgThumbs.length - 1) * (musicImgWidth + musicGapWidth)) + musicImgSelectedWidth + musicGapWidth;
+const musicCenterDiv = (parentWidth - (musicImgWidth + musicGapWidth)) / 2;
+
+
+divImgThumbs.forEach((item, i) => {
+    item.style.left = (musicCenterDiv) + 'px';
+    i === 0 ? imgThumb[i].classList.add("selected") : null
+});
+
+divImgThumbs.forEach((item, i) => {
+
+    if (((parseFloat(item.style.left) + ((musicImgWidth + musicGapWidth) / 2)) * (i + 1)) > musicArrWidth - ((musicImgWidth + musicGapWidth) * 2)) {
+        item.style.left = parseFloat(item.style.left) - musicArrWidth + "px"
+    }
+})
+
+const clearSelected = () => {
+    imgThumb.forEach((divImg) => divImg.classList.remove("selected"));
+}
+
+
+let indexMusic = 1
+let musicIntervalVarible;
+
+setInterval(() => {
+       if (!pauseMusic) {
+        clearSelected()
+        imgThumb[indexMusic].classList.add("selected");
+        moveMusic()
+        indexMusic++;
+        indexMusic >= imgThumb.length ? indexMusic = 0 : indexMusic = indexMusic
+       }
+    }, 3000);
+
+const moveMusic = () => {
+    divImgThumbs.forEach((img, i) => {
+        img.style.left = parseFloat(img.style.left) - (musicArrWidth / divImgThumbs.length) + "px";
+
+
+        (parseFloat(img.style.left) < (musicCenterDiv - (musicArrWidth / 2) - ((musicImgWidth + musicGapWidth) * (i + 1))))
+            ? img.style.left = parseFloat(img.style.left) + musicArrWidth + "px"
+            : null;
+    })
+}
