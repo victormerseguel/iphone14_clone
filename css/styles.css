@@ -174,7 +174,7 @@ nav {
 
 .iphone14-wrap {
   text-align: center;
-  padding-top: 100px;
+  padding: 100px 20px 0;
 }
 
 .iphone14-wrap p:first-of-type {
@@ -238,7 +238,7 @@ nav {
 
 .iphone14pro-wrap {
   text-align: center;
-  padding-top: 150px;
+  padding: 150px 20px 0;
   background-color: #000;
   color: #fff;
 }
@@ -379,12 +379,14 @@ nav {
 #choice h2 {
   font-size: 3rem;
   font-weight: 500;
+  padding: 0 20px;
 }
 
 .table-wrap {
   display: flex;
   width: 100%;
   justify-content: center;
+  padding: 0 20px;
 }
 
 #table-compare {
@@ -394,6 +396,14 @@ nav {
   justify-content: space-between;
   margin: 0 20px;
   flex-wrap: wrap;
+}
+
+@media (max-width: 876px) {
+  #table-compare {
+    max-width: 500px;
+    justify-content: center;
+    gap: 50px;
+  }
 }
 
 .head,
@@ -548,8 +558,8 @@ nav {
 #enjoy h2 {
   font-size: 3rem;
   font-weight: 500;
-  padding-top: 150px;
-  padding-bottom: 80px;
+  text-align: center;
+  padding: 150px 20px 80px;
 }
 
 .left,
@@ -566,6 +576,21 @@ nav {
   padding: 50px;
 }
 
+@media (max-width: 768px) {
+  .one {
+    flex-direction: column;
+    width: 90vw;
+  }
+  .left,
+  .right {
+    width: 100%;
+  }
+  .left {
+    max-width: 300px;
+    align-self: center;
+  }
+}
+
 .left img {
   width: 120%;
 }
@@ -580,6 +605,7 @@ nav {
 .right img {
   width: 70%;
   padding-bottom: 40px;
+  max-width: 150px;
 }
 
 .right h6 {
@@ -596,6 +622,7 @@ nav {
   padding-bottom: 25px;
   margin: 0 15px;
   justify-content: center;
+  position: relative;
 }
 
 .tvplus,
@@ -606,11 +633,27 @@ nav {
   width: 50%;
 }
 
+@media (max-width: 768px) {
+  .cards-wrap {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .tvplus,
+  .music {
+    width: 90vw;
+  }
+
+  .music {
+    height: 800px;
+  }
+}
+
 #tvlogo,
 #musiclogo {
   align-self: center;
   padding-top: 70px;
   padding-bottom: 20px;
+  max-width: 150px;
 }
 
 #musiclogo {
@@ -806,6 +849,7 @@ nav {
   font-size: 0.75rem;
   font-weight: 100;
   line-height: 1.1rem;
+  padding: 0 20px;
 }
 
 .adversments-wrap p,
@@ -821,6 +865,7 @@ nav {
 /* FOOTER */
 footer {
   background-color: #f5f5f7;
+  padding: 0 20px;
 }
 
 #footer-one {
@@ -908,4 +953,49 @@ footer {
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .footer-links a {
+    display: none;
+  }
+
+  .footer-links,
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .column,
+  .footer-title {
+    width: 100%;
+  }
+
+  .column {
+    padding: 0;
+  }
+
+  .footer-title {
+    padding: 10px 0 !important;
+    border-bottom: 1px solid #c2c2c2;
+    color: #a9a9ac;
+  }
+
+  .found .footer-title {
+    margin-top: 20px !important;
+    border-top: 1px solid #c2c2c2;
+  }
+
+  .bottom {
+    margin-top: 20px;
+  }
+
+  .copyright {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .links-privacity {
+    padding-top: 10px;
+  }
 }
